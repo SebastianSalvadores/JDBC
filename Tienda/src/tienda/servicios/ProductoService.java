@@ -90,4 +90,80 @@ public class ProductoService {
             throw e;
         }
     }
+    
+    public Producto nombrePrecioMasBarato() throws Exception{
+        try {
+            Producto producto = dao.nombrePrecioMasBarato();
+            return producto;
+        } catch (Exception e) {
+            throw e;
+        }
+        
+    }
+    
+    public Producto buscarProductoPorCodigo(int codigo) throws Exception{
+        try {
+            if(codigo < 0){
+                throw new Exception("debe indicar el codigo");
+            }
+            Producto producto = dao.buscarProductoPorCodigo(codigo);
+            if(producto == null){
+                throw new Exception("No se encontro el producto.");
+            }
+            return producto;
+        } catch (Exception e) {
+            throw e;
+        }
+        
+    }
+    
+    public void modificarProducto() throws Exception{
+        try {
+            System.out.println("Ingrese codigo del producto a modificar:");
+            int codigo = leer.nextInt();
+            Producto producto = buscarProductoPorCodigo(codigo);
+            System.out.println("¿Desea modificar el nombre del producto? (S/N)");
+            String resp;
+            do{
+                resp = leer.next();
+                if(!resp.equalsIgnoreCase("S") && !resp.equalsIgnoreCase("N")){
+                    System.out.println("respuesta incorrecta. Responda S o N");
+                }
+            }while(!resp.equalsIgnoreCase("S") && !resp.equalsIgnoreCase("N"));
+            if(resp.equalsIgnoreCase("S")){
+                System.out.println("Ingrese nuevo nombre:");
+                String nombre = leer.next();
+                producto.setNombre(nombre);
+            }
+            System.out.println("¿Desea modificar el precio del producto? (S/N)");
+            do{
+                resp = leer.next();
+                if(!resp.equalsIgnoreCase("S") && !resp.equalsIgnoreCase("N")){
+                    System.out.println("respuesta incorrecta. Responda S o N");
+                }
+            }while(!resp.equalsIgnoreCase("S") && !resp.equalsIgnoreCase("N"));
+            if(resp.equalsIgnoreCase("S")){
+                System.out.println("Ingrese nuevo precio:");
+                double precio = leer.nextDouble();
+                producto.setPrecio(precio);
+            }
+            System.out.println("¿Desea modificar el fabricante del producto? (S/N)");
+            do{
+                resp = leer.next();
+                if(!resp.equalsIgnoreCase("S") && !resp.equalsIgnoreCase("N")){
+                    System.out.println("respuesta incorrecta. Responda S o N");
+                }
+            }while(!resp.equalsIgnoreCase("S") && !resp.equalsIgnoreCase("N"));
+            if(resp.equalsIgnoreCase("S")){
+                System.out.println("Ingrese nuevo codigo de fabricante:");
+                int codigoFabricante = leer.nextInt();
+                producto.setCodigoFabricante(codigoFabricante);
+            }
+            
+            dao.modificarProducto(producto);
+        } catch (Exception e) {
+            throw e;
+        }
+        
+    }
 }
